@@ -1,6 +1,7 @@
-# sss
+### Compile in Ubuntu
 g++ -I "/home/jyc/Desktop/C/SNAKEGAME/sss-main" main.cpp -o output -lncurses
 
+# Game Rule
 1. 진행방향과 같은 반대 방향키를 입력하는 경우 실패. 방향키는 직접 정함.
 
 2. Snake의 이동 방향에 Item이 놓여 있는 경우
