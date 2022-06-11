@@ -10,6 +10,7 @@
 #include "Snake.hpp"
 #include "Scoreboard.hpp"
 #include "Poison.hpp"
+#include "gameScore.hpp"
 
 class SnakeGame
 {
@@ -36,8 +37,11 @@ public:
         board.initalize();
 
         // score;
-        score = 0;
-        scoreboard.initialize(score);
+        gameScore.apple_score = 0;
+        gameScore.poison_score = 0;
+        gameScore.cur_len = 3;
+        gameScore.max_len = 3;
+        scoreboard.initialize(gameScore);
 
         game_over = false;
         srand(time(NULL));
@@ -112,11 +116,6 @@ public:
         return game_over;
     }
 
-    int getScore()
-    {
-        return score;
-    }
-
 private:
     Board board;
     bool game_over;
@@ -125,7 +124,9 @@ private:
 
     Snake snake;
     Scoreboard scoreboard;
-    int score;
+
+    // 6/11
+    s_score gameScore;
 
     void createApple()
     {
@@ -147,16 +148,20 @@ private:
     {
         delete apple;
         apple = NULL;
-        score += 100;
-        scoreboard.updateScore(score);
+        gameScore.apple_score += 1;
+        gameScore.cur_len += 1;
+        if (gameScore.max_len < gameScore.cur_len)
+            gameScore.max_len = gameScore.cur_len;
+        scoreboard.updateScore(gameScore);
     }
 
     void eatPoison() //추가
     {
         delete poison;
         apple = NULL;
-        score += 100;
-        scoreboard.updateScore(score);
+        gameScore.poison_score += 1;
+        gameScore.cur_len -= 1;
+        scoreboard.updateScore(gameScore);
     }
 
     void hanleNextPiece(SnakePiece next) // 수정
