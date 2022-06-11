@@ -216,11 +216,7 @@ private:
         {
             game_over = true;
         }
-        if (gameScore.max_len >= 10)
-        {
-            game_over = true;
-        }
-        if (gameScore.apple_score >= 10)
+        if (gameScore.max_len >= 10 && gameScore.apple_score >= 10 && gameScore.poison_score >= 2)
         {
             game_over = true;
         }
