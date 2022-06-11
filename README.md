@@ -52,3 +52,8 @@ g++ -I "/home/jyc/Desktop/C/SNAKEGAME/sss-main" main.cpp -o output -lncurses
 - 게임 시간 (Seconds로 계산)
 - 게임 방법: 주어진 미션 달성하기
 - 미션: 좌측의 각 점수 항목별(최대길이, Growth Item 획득 수, Poison Item 획득 수, Gate 사용 횟수, 게임 시간)로 목표치 도달 시 게임 종료
+
+
+6/11 
+점수판 수정, 게임 화면 수정
+gameScore.hpp 추가 (구조체 추가)
