@@ -14,14 +14,11 @@
 class SnakeGame
 {
 public:
-    SnakeGame(int height, int width, int speed = 300)
+    // 6/11 생성자 수정
+    SnakeGame(int speed = 300)
     {
-        board = Board(height, width, speed);
-
-        // scoreboard
-        int sb_row = board.getStartRow() + height;
-        int sb_col = board.getStartCol();
-        scoreboard = Scoreboard(width, sb_row, sb_col);
+        board = Board(speed);
+        scoreboard = Scoreboard();
         initalize();
 
         srand(time(NULL));

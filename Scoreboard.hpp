@@ -2,18 +2,18 @@
 #include <curses.h>
 #include <ncurses.h>
 
-class Scoreboard
+#include <iostream>
+
+
+class Scoreboard : public Board
 {
     WINDOW *score_win;
 
 public:
     Scoreboard()
     {
-    }
-
-    Scoreboard(int width, int y, int x)
-    {
-        score_win = newwin(1, width, y, x);
+        score_win = newwin(30, 30, 5, (xMax / 2) + 30);
+        box(score_win, 0, 0);
     }
 
     void initialize(int initial_score) // 수정

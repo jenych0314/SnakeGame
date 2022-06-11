@@ -2,24 +2,26 @@
 #include "Drawable.hpp"
 #include "stdlib.h"
 
+#define HEIGHT 20
+#define WIDTH 50
+
 class Board
 {
+protected:
+    int xMax, yMax;
+
 private:
     WINDOW *board_win;
-    int height, width, start_row, start_col;
 
-    void construct(int height, int width, int speed)
+    void construct(int speed)
     {
-        int xMax, yMax;
         getmaxyx(stdscr, yMax, xMax);
 
-        this->height = height;
-        this->width = width;
+        // 6/11 
+        board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
+        wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
+        wrefresh(board_win);
 
-        start_row = (yMax / 2) - (height / 2);
-        start_col = (xMax / 2) - (width / 2);
-
-        board_win = newwin(height, width, start_row, start_col);
         setTimeout(speed);
         keypad(board_win, true);
     }
@@ -28,12 +30,12 @@ public:
     // 맵 생성자
     Board()
     {
-        construct(0, 0, 300);
+
     }
 
-    Board(int height, int width, int speed)
+    Board(int speed)
     {
-        construct(height, width, speed);
+        construct(speed);
     }
 
     // 실행
@@ -41,12 +43,6 @@ public:
     {
         clear();
         refresh();
-    }
-
-    // 경계 생성
-    void addBorder()
-    {
-        box(board_win, 0, 0);
     }
 
     // Drawable에서 그리기
@@ -67,19 +63,13 @@ public:
 
     void getEmptyCoordinates(int &y, int &x)
     {
-        while ((mvwinch(board_win, y = rand() % height, x = rand() % width)) != ' ')
+        while ((mvwinch(board_win, y = rand() % HEIGHT, x = rand() % WIDTH)) != ' ')
             ;
     }
 
     chtype getCharAt(int y, int x)
     {
         return mvwinch(board_win, y, x);
-    }
-
-    void clear()
-    {
-        wclear(board_win);
-        addBorder();
     }
 
     void refresh()
@@ -90,15 +80,5 @@ public:
     void setTimeout(int timeout)
     {
         wtimeout(board_win, timeout);
-    }
-
-    int getStartRow()
-    {
-        return start_row;
-    }
-
-    int getStartCol()
-    {
-        return start_col;
     }
 };
