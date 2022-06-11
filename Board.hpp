@@ -81,4 +81,9 @@ public:
     {
         wtimeout(board_win, timeout);
     }
+
+    void removeWindow()
+    {
+        wclear(board_win);
+    }
 };

@@ -26,14 +26,15 @@ int main()
 
     while (!game.isOver())
     {
-        game.processInput();
-        // get input from user
-
         game.updateState();
-
-        // redraw display
+        game.processInput();
         game.redraw();
     }
+
+        // WINDOW *gameover = newwin(30, 30, 0, 0);
+        // box(gameover, 0 ,0);
+        // wprintw(gameover, "GameOver");
+        // wrefresh(gameover);
 
     getch();
     endwin();

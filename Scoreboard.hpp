@@ -36,9 +36,16 @@ public:
         mvwprintw(score_win, 4, 1, "Eat Poison Count : %d ", gameScore.poison_score);
         // mvwprintw(score_win, 5, 1, "Gate Count : %d ", score);
     }
+
+    // 아래 게임 설명 만들예정
 // %-11llu
     void refresh()
     {
         wrefresh(score_win);
+    }
+
+    void removeWindow()
+    {
+        wclear(score_win);
     }
 };
