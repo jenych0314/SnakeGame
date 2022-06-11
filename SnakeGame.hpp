@@ -216,5 +216,13 @@ private:
         {
             game_over = true;
         }
+        if (gameScore.max_len >= 10)
+        {
+            game_over = true;
+        }
+        if (gameScore.apple_score >= 10)
+        {
+            game_over = true;
+        }
     }
 };

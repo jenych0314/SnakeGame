@@ -3,7 +3,7 @@
 #include "stdlib.h"
 
 #define HEIGHT 20
-#define WIDTH 50
+#define WIDTH 60
 
 class Board
 {
@@ -18,7 +18,7 @@ private:
         getmaxyx(stdscr, yMax, xMax);
 
         // 6/11 
-        board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
+        board_win = newwin(HEIGHT, WIDTH, 5, 30);
         wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
         wrefresh(board_win);
 

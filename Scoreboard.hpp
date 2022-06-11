@@ -35,6 +35,11 @@ public:
         mvwprintw(score_win, 3, 1, "Eat Apple Count : %d ", gameScore.apple_score);
         mvwprintw(score_win, 4, 1, "Eat Poison Count : %d ", gameScore.poison_score);
         // mvwprintw(score_win, 5, 1, "Gate Count : %d ", score);
+
+        mvwprintw(score_win, 7, 1, "MISSON");
+        mvwprintw(score_win, 8, 1, "Grow your length : %d / 10 ", gameScore.max_len);
+        mvwprintw(score_win, 9, 1, "or");
+        mvwprintw(score_win, 10, 1, "Eat Apple Count : %d / 10 ", gameScore.apple_score);
     }
 
     // 아래 게임 설명 만들예정
