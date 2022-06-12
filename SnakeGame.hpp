@@ -10,6 +10,7 @@
 #include "Snake.hpp"
 #include "Scoreboard.hpp"
 #include "Poison.hpp"
+#include "Gate.hpp"
 #include "gameScore.hpp"
 
 class SnakeGame
@@ -34,6 +35,8 @@ public:
     {
         apple = NULL;
         poison = NULL;
+        gate1 = NULL;
+        gate2 = NULL;
         board.initalize();
 
         // score;
@@ -56,6 +59,8 @@ public:
             createApple();
         if (poison == NULL)
             createPoison();
+        if (gate1 == NULL || gate2 == NULL)
+            createGates();
     }
 
     void processInput()
@@ -103,6 +108,10 @@ public:
         {
             createPoison();
         }
+        if (gate1 == NULL || gate2 == NULL)
+        {
+            createGates();
+        }
     }
 
     void redraw()
@@ -121,6 +130,8 @@ private:
     bool game_over;
     Apple *apple;
     Poison *poison;
+    Gate *gate1;
+    Gate *gate2;
 
     Snake snake;
     Scoreboard scoreboard;
@@ -144,6 +155,16 @@ private:
         board.add(*poison);
     }
 
+    void createGates() // 추가
+    {
+        int y1, x1, y2, x2;
+        board.getWallCoordinates(y1, x1, y2, x2);
+        gate1 = new Gate(y1, x1);
+        gate2 = new Gate(y2, x2);
+        board.add(*gate1);
+        board.add(*gate2);
+    }
+
     void eatApple()
     {
         delete apple;
@@ -163,6 +184,23 @@ private:
         gameScore.cur_len -= 1;
         scoreboard.updateScore(gameScore);
     }
+
+    // void enterGate()  // 게이트 진입 시 실행되는 함수
+    // 접근한 포탈에 진입하고 나머지 포탈로 빠져 나오게끔
+    // {
+    //     if(snake.getDirection() == down){
+
+    //     }
+    //     if(snake.getDirection() == up){
+
+    //     }
+    //     if(snake.getDirection() == left){
+
+    //     }
+    //     if(snake.getDirection() == right){
+
+    //     }
+    // }
 
     void hanleNextPiece(SnakePiece next) // 수정
     {
@@ -188,6 +226,9 @@ private:
                 snake.removePiece();
                 break;
             // case 'G':
+            //     enterGate();
+
+
             //     break;
             case ' ':
             {
