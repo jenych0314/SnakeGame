@@ -19,7 +19,7 @@ private:
 
         // 6/11 
         board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
-        wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
+        wborder(board_win, '0', '0', '0', '0', '/', '\\', '\\', '/');
         wrefresh(board_win);
 
         setTimeout(speed);
@@ -65,6 +65,17 @@ public:
     {
         while ((mvwinch(board_win, y = rand() % HEIGHT, x = rand() % WIDTH)) != ' ')
             ;
+    }
+
+    void getWallCoordinates(int &y1, int &x1, int& y2, int& x2)
+    {
+        while(1){
+            while ((mvwinch(board_win, y1 = rand() % HEIGHT, x1 = rand() % WIDTH)) == ' ');
+            while ((mvwinch(board_win, y2 = rand() % HEIGHT, x2 = rand() % WIDTH)) == ' ');
+            if (y1 != y2 || x1 != x2) {
+                break;
+            }
+        }
     }
 
     chtype getCharAt(int y, int x)
