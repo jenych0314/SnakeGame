@@ -228,7 +228,6 @@ private:
             // case 'G':
             //     enterGate();
 
-
             //     break;
             case ' ':
             {

@@ -17,7 +17,7 @@ private:
     {
         getmaxyx(stdscr, yMax, xMax);
 
-        // 6/11 
+        // 6/11
         board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
         wborder(board_win, '0', '0', '0', '0', '/', '\\', '\\', '/');
         wrefresh(board_win);
@@ -30,7 +30,6 @@ public:
     // 맵 생성자
     Board()
     {
-
     }
 
     Board(int speed)
@@ -67,12 +66,16 @@ public:
             ;
     }
 
-    void getWallCoordinates(int &y1, int &x1, int& y2, int& x2)
+    void getWallCoordinates(int &y1, int &x1, int &y2, int &x2)
     {
-        while(1){
-            while ((mvwinch(board_win, y1 = rand() % HEIGHT, x1 = rand() % WIDTH)) == ' ');
-            while ((mvwinch(board_win, y2 = rand() % HEIGHT, x2 = rand() % WIDTH)) == ' ');
-            if (y1 != y2 || x1 != x2) {
+        while (1)
+        {
+            while ((mvwinch(board_win, y1 = rand() % HEIGHT, x1 = rand() % WIDTH)) == ' ')
+                ;
+            while ((mvwinch(board_win, y2 = rand() % HEIGHT, x2 = rand() % WIDTH)) == ' ')
+                ;
+            if (y1 != y2 || x1 != x2)
+            {
                 break;
             }
         }
