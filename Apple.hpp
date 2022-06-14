@@ -4,6 +4,8 @@
 
 class Apple : public Drawable
 {
+private:
+    double appleTime;
 public:
     Apple(int _y, int _x)
     {
