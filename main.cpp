@@ -1,12 +1,8 @@
 #include <ncurses.h>
-#include <iostream>
 #include "Board.hpp"
 #include "SnakeGame.hpp"
-
-// 6/11 : 맵 배치를 위한 크기조절
-// #define BOARD_DIM 17
-// #define BOARD_ROWS BOARD_DIM * 1.2
-// #define BOARD_COLS BOARD_DIM * 2.5
+#include <iostream>
+#include <chrono>
 
 int main()
 {
@@ -21,25 +17,34 @@ int main()
     border('*', '*', '*', '*', '*', '*', '*', '*');
     refresh();
 
+    // 6/14
+    WINDOW *explain = newwin(15, 70, 30, 50);
+    box(explain, 0, 0);
+    mvwprintw(explain, 1, 3, "Game Rule\nEat 'A' makes your snake length + 1\n Eat 'P' makes your snake length - 1\n if current length less than 3, Game Over\n if clear all mission, Game Clear");
+    wrefresh(explain);
+
     // 6/11
     SnakeGame game = SnakeGame(100);
+    std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+    int time = 0;
 
     while (!game.isOver())
     {
         game.updateState();
         game.processInput();
         game.redraw();
+        std::chrono::duration<double>sec = std::chrono::system_clock::now() - start;
+        if (time < sec.count())
+            time = sec.count();
+        std::cout << time << " / 30" << std::endl;
     }
-
-        // WINDOW *gameover = newwin(30, 30, 0, 0);
-        // box(gameover, 0 ,0);
-        // wprintw(gameover, "GameOver");
-        // wrefresh(gameover);
+    
 
     getch();
     endwin();
 
     std::cout << "GameOver" << std::endl;
+    
 
     return 0;
 }

@@ -7,16 +7,12 @@
 
 class Board
 {
-protected:
-    int xMax, yMax;
 
 private:
     WINDOW *board_win;
 
     void construct(int speed)
     {
-        getmaxyx(stdscr, yMax, xMax);
-
         // 6/11 
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
         wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');

@@ -1,4 +1,4 @@
 all : main
 
 main : *.cpp
-	g++ main.cpp -lncurses -o main && ./main
+	g++ main.cpp -lncursesw -o main && ./main

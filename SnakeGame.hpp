@@ -11,6 +11,7 @@
 #include "Scoreboard.hpp"
 #include "Poison.hpp"
 #include "gameScore.hpp"
+#include <chrono>
 
 class SnakeGame
 {
@@ -35,7 +36,7 @@ public:
         apple = NULL;
         poison = NULL;
         board.initalize();
-
+        
         // score;
         gameScore.apple_score = 0;
         gameScore.poison_score = 0;
@@ -124,7 +125,7 @@ private:
 
     Snake snake;
     Scoreboard scoreboard;
-
+    
     // 6/11
     s_score gameScore;
 
