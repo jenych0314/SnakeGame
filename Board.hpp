@@ -1,8 +1,8 @@
 #pragma once
+#include <stdlib.h>
 #include "Drawable.hpp"
-#include "stdlib.h"
 
-#define HEIGHT 20
+#define HEIGHT 25
 #define WIDTH 60
 
 class Board

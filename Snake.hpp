@@ -1,6 +1,4 @@
 #pragma once
-#include <ncurses.h>
-#include "Drawable.hpp"
 #include <queue>
 
 enum Direction

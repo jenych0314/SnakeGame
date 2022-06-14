@@ -16,14 +16,15 @@ class SnakeGame
 {
 private:
     Board board;
-    bool game_over;
     Apple *apple;
     Poison *poison;
     double appleTime, poisonTime, gateTime;
     Snake snake;
     Scoreboard scoreboard;
+    bool game_over;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
+    int tmp_row, tmp_col;
 
     // 6/11
     s_score gameScore;
@@ -75,6 +76,7 @@ private:
         int emptyRow = snake.tail().getY();
         int emptyCol = snake.tail().getX();
         board.add(Empty(emptyRow, emptyCol));
+        
         snake.removePiece();
     }
 
@@ -220,13 +222,16 @@ public:
             board.addAt(tmp_apple_y, tmp_apple_x, ' ');
             delete apple;
             apple = NULL;
+            board.add(Empty(tmp_row, tmp_col));
         }
         if ((clock() - poisonTime) > 5000)
         {
             board.addAt(tmp_poison_y, tmp_poison_x, ' ');
             delete poison;
             poison = NULL;
+            board.add(Empty(tmp_row, tmp_col));
         }
+
         // if ((clock() - gate->getTime()) / 1000 > 5)
         // {
         //     gate = NULL;

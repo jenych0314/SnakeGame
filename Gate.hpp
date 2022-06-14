@@ -4,6 +4,8 @@
 
 class Gate : public Drawable
 {
+private:
+    
 public:
     Gate(int _y, int _x)
     {

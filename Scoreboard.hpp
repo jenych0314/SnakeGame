@@ -3,7 +3,7 @@
 #include "gameScore.hpp"
 
 
-class Scoreboard : public Board
+class Scoreboard
 {
     WINDOW *score_win;
 
@@ -44,14 +44,8 @@ public:
         // mvwprintw(score_win, 5, 1, "Gate Count : %d ", score);
     }
 
-// %-11llu
     void refresh()
     {
         wrefresh(score_win);
-    }
-
-    void removeWindow()
-    {
-        wclear(score_win);
     }
 };

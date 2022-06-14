@@ -1,8 +1,6 @@
 #ifndef GAMESCORE_HPP
 #define GAMESCORE_HPP
 
-#include <chrono>
-
 typedef struct Score_menu
     {
         int max_len;
