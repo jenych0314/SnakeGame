@@ -1,5 +1,4 @@
 #pragma once
-#include <ncurses.h>
 #include "Drawable.hpp"
 
 class Empty : public Drawable

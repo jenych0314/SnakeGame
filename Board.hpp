@@ -1,5 +1,4 @@
 #pragma once
-#include <stdlib.h>
 #include "Drawable.hpp"
 
 #define HEIGHT 25
@@ -13,6 +12,7 @@ private:
 
     void construct(int speed)
     {
+        // 6/11 
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
         wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
         wrefresh(board_win);

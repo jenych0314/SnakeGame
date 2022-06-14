@@ -1,11 +1,10 @@
-#pragma once // 추가
-#include <ncurses.h>
+#pragma once
 #include "Drawable.hpp"
 
 class Gate : public Drawable
 {
 private:
-    
+
 public:
     Gate(int _y, int _x)
     {

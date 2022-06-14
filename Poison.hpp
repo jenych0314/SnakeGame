@@ -1,5 +1,4 @@
 #pragma once // 추가
-#include <ncurses.h>
 #include "Drawable.hpp"
 
 class Poison : public Drawable

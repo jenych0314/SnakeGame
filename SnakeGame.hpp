@@ -26,7 +26,6 @@ private:
     int tmp_poison_x, tmp_poison_y;
     int tmp_row, tmp_col;
 
-    // 6/11
     s_score gameScore;
 
     void createApple()
@@ -40,7 +39,7 @@ private:
         appleTime = clock();
     }
 
-    void createPoison() // 추가
+    void createPoison()
     {
         int y, x;
         board.getEmptyCoordinates(y, x);
@@ -62,7 +61,7 @@ private:
         scoreboard.updateScore(gameScore);
     }
 
-    void eatPoison() //추가
+    void eatPoison()
     {
         delete poison;
         poison = NULL;
@@ -71,7 +70,7 @@ private:
         scoreboard.updateScore(gameScore);
     }
 
-    void removeTail() // handleNextPiece 내부 동작을 밖으로 빼서 가독성 높여봄.
+    void removeTail()
     {
         int emptyRow = snake.tail().getY();
         int emptyCol = snake.tail().getX();

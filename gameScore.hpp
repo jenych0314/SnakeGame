@@ -9,5 +9,4 @@ typedef struct Score_menu
         int poison_score;
     } s_score;
 
-
 #endif
