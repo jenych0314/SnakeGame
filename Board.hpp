@@ -12,18 +12,18 @@ class Board
 private:
     WINDOW *board_win;
 
-    //6/15
+    // 6/15
     int timeout;
 
-    void construct(int speed)
+    void construct(int tick)
     {
-        // 6/11 
+        // 6/11
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
         wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
         wrefresh(board_win);
 
-        timeout = speed;
-        setTimeout(speed);
+        timeout = tick;
+        setTimeout(tick);
         keypad(board_win, true);
     }
 
@@ -31,12 +31,11 @@ public:
     // 맵 생성자
     Board()
     {
-
     }
 
-    Board(int speed)
+    Board(int tick)
     {
-        construct(speed);
+        construct(tick);
     }
 
     // 실행

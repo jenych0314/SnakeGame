@@ -1,5 +1,8 @@
 #pragma once
 
+#define TICK 250
+#define ITEMTICK 10000
+
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
@@ -143,9 +146,9 @@ private:
     }
 
 public:
-    SnakeGame(int speed)
+    SnakeGame(int tick)
     {
-        board = Board(speed);
+        board = Board(tick);
         scoreboard = Scoreboard();
         initalize();
         srand(time(NULL));
@@ -219,9 +222,9 @@ public:
     void updateState() // 수정
     {
         // 6/15
-        s_time += 250;
-        a_time += 250;
-        p_time += 250;
+        s_time += TICK;
+        a_time += TICK;
+        p_time += TICK;
 
         if (s_time % 1000 == 0)
         {
@@ -241,14 +244,14 @@ public:
             createPoison();
         }
 
-        if (a_time == 10000)
+        if (a_time == ITEMTICK)
         {
             board.addAt(tmp_apple_y, tmp_apple_x, ' ');
             a_time = 0;
             delete apple;
             apple = NULL;
         }
-        if (p_time == 10000)
+        if (p_time == ITEMTICK)
         {
             board.addAt(tmp_poison_y, tmp_poison_x, ' ');
             p_time = 0;
@@ -256,7 +259,7 @@ public:
             poison = NULL;
         }
         // tmp
-        if (s_time % 10250 == 0)
+        if (s_time % (ITEMTICK + TICK) == 0)
         {
             removeTail();
         }
