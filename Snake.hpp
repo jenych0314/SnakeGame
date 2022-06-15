@@ -87,6 +87,11 @@ public:
         return this->size3;
     }
 
+    int getCurSize()
+    {
+        return this->curSize;
+    }
+
     void setDirection(Direction d) // 수정
     {
         if (cur_direction == d)

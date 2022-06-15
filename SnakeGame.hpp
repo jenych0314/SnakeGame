@@ -73,6 +73,8 @@ private:
 
         a_time = 0;
         scoreboard.updateScore(gameScore);
+
+        std::cout << "eatApple" << std::endl;
     }
 
     void eatPoison()
@@ -146,9 +148,9 @@ private:
     }
 
 public:
-    SnakeGame(int tick)
+    SnakeGame(int speed)
     {
-        board = Board(tick);
+        board = Board(speed);
         scoreboard = Scoreboard();
         initalize();
         srand(time(NULL));
@@ -168,9 +170,12 @@ public:
         // score;
         gameScore.apple_score = gameScore.poison_score = 0;
         gameScore.cur_len = gameScore.max_len = 3;
+        gameScore.game_time = 0;
         scoreboard.initialize(gameScore);
 
-        s_time = a_time = p_time = 0;
+        s_time = 0;
+        a_time = 0;
+        p_time = 0;
         game_over = false;
         srand(time(NULL));
 
@@ -248,18 +253,22 @@ public:
         {
             board.addAt(tmp_apple_y, tmp_apple_x, ' ');
             a_time = 0;
+
             delete apple;
             apple = NULL;
+
+            std::cout << "responeApple" << std::endl;
         }
         if (p_time == ITEMTICK)
         {
             board.addAt(tmp_poison_y, tmp_poison_x, ' ');
             p_time = 0;
+
             delete poison;
             poison = NULL;
         }
         // tmp
-        if (s_time % (ITEMTICK + TICK) == 0)
+        if ((s_time % (ITEMTICK + TICK) == 0) && (gameScore.cur_len <= snake.getCurSize()))
         {
             removeTail();
         }
