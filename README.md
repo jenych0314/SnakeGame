@@ -1,5 +1,7 @@
+### git commit 할 때 어떤 걸 변경했는 지 명시해주시면 감사하겠습니다.
+
 ### Compile in Ubuntu
-g++ -I "/home/jyc/Desktop/C/SNAKEGAME/sss-main" main.cpp -o output -lncurses
+g++ -I "SnakeFilePath" main.cpp -o output -lncurses
 
 # Game Rule
 1. 진행방향과 같은 반대 방향키를 입력하는 경우 실패. 방향키는 직접 정함.
@@ -52,3 +54,22 @@ g++ -I "/home/jyc/Desktop/C/SNAKEGAME/sss-main" main.cpp -o output -lncurses
 - 게임 시간 (Seconds로 계산)
 - 게임 방법: 주어진 미션 달성하기
 - 미션: 좌측의 각 점수 항목별(최대길이, Growth Item 획득 수, Poison Item 획득 수, Gate 사용 횟수, 게임 시간)로 목표치 도달 시 게임 종료
+
+## CheckList
+1. Wall, ImmuneWall 생성
+	* Wall이 게임판 중간에 생성됬는데 Snake 바로 앞에 생성되면 암살 가능.
+2. Gate 생성 -> Wall 객체의 위치 중에서 두 곳을 골라 Wall 객체를 삭제시킨 이후, 그 자리에 Gate 객체 생성
+3. Item의 타이머 생성
+4. Snake의 Gate 진입, 진출 방향 설정
+5. Item의 최대 동시 생성 갯수 설정: 3
+6. 항목별 점수 생성
+7. 항목별 점수 계산
+8. ScoreBoard 항목별 목표치, 달성치
+9. Game Clear 조건 매끄럽게 처리
+
+## Additional
+1. Esc키를 누르면 User에게 확인 후 종료
+2. p키를 눌러 게임 일시중지 시 일시중지임을 인지시켜줄 수 있는 장치 ex) ScoreBoard에서 "Pause" 메시지 출력
+3. Game Level Up System -> Difficulty Growth
+-> Game Speed 증가, Mission의 항목별 목표치 증가, 추가 벽의 생성 속도/시간 감소, Item의 유지 시간 감소 등
+4. Pause
