@@ -45,7 +45,7 @@ private:
 
         tmp_apple_x = x;
         tmp_apple_y = y;
-        appleTime = 0; // 10초
+        appleTime = 0;
     }
 
     void createPoison()
@@ -58,7 +58,7 @@ private:
 
         tmp_poison_x = x;
         tmp_poison_y = y;
-        poisonTime = 0; // 10초
+        poisonTime = 0;
     }
 
     void eatApple()
@@ -97,11 +97,12 @@ private:
 
     void hanleNextPiece(SnakePiece next) // 수정
     {
-        // const char appleIcon = apple->getIcon();
+        // const char appleIcon = apple->getIcon(); // segment error occured
         if ((apple != NULL) || (poison != NULL))
         {
+            char boardCharAt = board.getCharAt(next.getY(), next.getX());
             // game over handler
-            switch (board.getCharAt(next.getY(), next.getX()))
+            switch (boardCharAt)
             {
             case 'A':
                 eatApple();
@@ -162,18 +163,10 @@ public:
         apple = NULL;
         poison = NULL;
         board.initalize();
-
-        // score;
-        gameScore.apple_score = gameScore.poison_score = 0;
-        gameScore.cur_len = gameScore.max_len = 3;
-        gameScore.game_time = 0;
         scoreboard.initialize(gameScore);
 
-        snakeTime = 0;
-        appleTime = 0;
-        poisonTime = 0;
-        gameOver = false;
-        gameClear = false;
+        snakeTime = appleTime = poisonTime = 0;
+        gameOver = gameClear = false;
         srand(time(NULL));
 
         // snake make
