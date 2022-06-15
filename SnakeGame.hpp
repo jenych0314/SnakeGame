@@ -29,9 +29,9 @@ private:
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
     // 6/15
-    int s_time;
-    int a_time; // 아이템 리스폰
-    int p_time;
+    int snakeTime;
+    int appleTime; // 아이템 리스폰
+    int poisonTime;
 
     s_score gameScore;
 
@@ -45,7 +45,7 @@ private:
 
         tmp_apple_x = x;
         tmp_apple_y = y;
-        a_time = 0; // 10초
+        appleTime = 0; // 10초
     }
 
     void createPoison()
@@ -58,7 +58,7 @@ private:
 
         tmp_poison_x = x;
         tmp_poison_y = y;
-        p_time = 0; // 10초
+        poisonTime = 0; // 10초
     }
 
     void eatApple()
@@ -71,7 +71,7 @@ private:
         if (gameScore.max_len < gameScore.cur_len)
             gameScore.max_len = gameScore.cur_len;
 
-        a_time = 0;
+        appleTime = 0;
         scoreboard.updateScore(gameScore);
     }
 
@@ -83,7 +83,7 @@ private:
         gameScore.poison_score += 1;
         gameScore.cur_len -= 1;
 
-        p_time = 0;
+        poisonTime = 0;
         scoreboard.updateScore(gameScore);
     }
 
@@ -169,9 +169,9 @@ public:
         gameScore.game_time = 0;
         scoreboard.initialize(gameScore);
 
-        s_time = 0;
-        a_time = 0;
-        p_time = 0;
+        snakeTime = 0;
+        appleTime = 0;
+        poisonTime = 0;
         gameOver = false;
         gameClear = false;
         srand(time(NULL));
@@ -224,11 +224,11 @@ public:
     void updateState() // 수정
     {
         // 6/15
-        s_time += TICK;
-        a_time += TICK;
-        p_time += TICK;
+        snakeTime += TICK;
+        appleTime += TICK;
+        poisonTime += TICK;
 
-        if (s_time % 1000 == 0)
+        if (snakeTime % 1000 == 0)
         {
             gameScore.game_time += 1;
             scoreboard.updateScore(gameScore);
@@ -246,24 +246,24 @@ public:
             createPoison();
         }
 
-        if (a_time == ITEMTICK)
+        if (appleTime == ITEMTICK)
         {
             board.addAt(tmp_apple_y, tmp_apple_x, ' ');
-            a_time = 0;
+            appleTime = 0;
 
             delete apple;
             apple = NULL;
         }
-        if (p_time == ITEMTICK)
+        if (poisonTime == ITEMTICK)
         {
             board.addAt(tmp_poison_y, tmp_poison_x, ' ');
-            p_time = 0;
+            poisonTime = 0;
 
             delete poison;
             poison = NULL;
         }
         // 수정 필요
-        if ((s_time % (ITEMTICK + TICK) == 0) && (gameScore.cur_len <= snake.getCurSize()))
+        if ((snakeTime % (ITEMTICK + TICK) == 0) && (gameScore.cur_len <= snake.getCurSize()))
         {
             removeTail();
         }
