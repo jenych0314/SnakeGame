@@ -99,9 +99,6 @@ private:
     {
         if ((apple != NULL) || (poison != NULL))
         {
-            int emptyRow = snake.tail().getY();
-            int emptyCol = snake.tail().getX();
-
             // game over handler
             switch (board.getCharAt(next.getY(), next.getX()))
             {
@@ -263,7 +260,7 @@ public:
             delete poison;
             poison = NULL;
         }
-        // tmp
+        // 수정 필요
         if ((s_time % (ITEMTICK + TICK) == 0) && (gameScore.cur_len <= snake.getCurSize()))
         {
             removeTail();
