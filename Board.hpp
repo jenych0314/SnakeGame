@@ -1,6 +1,6 @@
 #pragma once
-#include "Drawable.hpp"
 #include <stdlib.h>
+#include "Drawable.hpp"
 #include "Time.hpp"
 
 #define HEIGHT 25
@@ -114,10 +114,12 @@ public:
     {
         wtimeout(board_win, timeout);
     }
+
     int getTimeout()
     {
         return timeout;
     }
+
     void removeWindow()
     {
         wclear(board_win);

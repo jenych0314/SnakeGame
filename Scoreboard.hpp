@@ -3,11 +3,11 @@
 
 class Scoreboard
 {
+private:
     WINDOW *score_win;
 
     void construct()
     {
-        // 6/11
         score_win = newwin(20, 40, 5, 100);
         box(score_win, 0, 0);
         wrefresh(score_win);
@@ -38,7 +38,6 @@ public:
         mvwprintw(score_win, 9, 1, "Eat Apple Count : %d ", gameScore.apple_score);
         mvwprintw(score_win, 10, 1, "Eat Poison Count : %d ", gameScore.poison_score);
         mvwprintw(score_win, 11, 1, "Game Time : %d", gameScore.game_time);
-
         // mvwprintw(score_win, 5, 1, "Gate Count : %d ", score);
     }
 

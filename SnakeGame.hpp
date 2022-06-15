@@ -7,23 +7,25 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include "Board.hpp"
-#include "Empty.hpp"
-#include "Apple.hpp"
 #include "Drawable.hpp"
-#include "Snake.hpp"
-#include "Scoreboard.hpp"
+#include "Apple.hpp"
 #include "Poison.hpp"
+#include "Empty.hpp"
+#include "Snake.hpp"
+#include "Board.hpp"
+#include "Scoreboard.hpp"
 #include "gameScore.hpp"
+#include "MessageBoard.hpp"
 
 class SnakeGame
 {
 private:
-    Board board;
     Apple *apple;
     Poison *poison;
     Snake snake;
+    Board board;
     Scoreboard scoreboard;
+    MessageBoard messageBoard;
 
     s_score gameScore;
 
@@ -166,6 +168,7 @@ public:
         poison = NULL;
         board.initalize();
         scoreboard.initialize(gameScore);
+        messageBoard.initialize();
 
         snakeTime = appleTime = poisonTime = 0;
         gamePause = gameOver = gameClear = false;
@@ -207,10 +210,12 @@ public:
             break;
         case 'p':
             gamePause = true;
+            messageBoard.pauseMessage();
             board.setTimeout(-1);
             while (board.getInput() != 'p')
                 ;
             gamePause = false;
+            messageBoard.initialize();
             board.setTimeout(old_timeout);
             break;
         default:
@@ -265,6 +270,7 @@ public:
     {
         board.refresh();
         scoreboard.refresh();
+        messageBoard.refresh();
     }
 
     bool isOver()
