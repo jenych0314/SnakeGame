@@ -27,7 +27,7 @@ private:
 
     s_score gameScore;
 
-    bool gameOver, gameClear;
+    bool gamePause, gameOver, gameClear;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
     int snakeTime, appleTime, poisonTime; // handle Item respon time
@@ -168,7 +168,7 @@ public:
         scoreboard.initialize(gameScore);
 
         snakeTime = appleTime = poisonTime = 0;
-        gameOver = gameClear = false;
+        gamePause = gameOver = gameClear = false;
         srand(time(NULL));
 
         // snake make
@@ -206,9 +206,11 @@ public:
             snake.setDirection(left);
             break;
         case 'p':
+            gamePause = true;
             board.setTimeout(-1);
             while (board.getInput() != 'p')
                 ;
+            gamePause = false;
             board.setTimeout(old_timeout);
             break;
         default:

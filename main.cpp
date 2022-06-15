@@ -4,13 +4,13 @@
 #include <iostream>
 #include <chrono>
 
+#define extern TICK;
+
 int main()
 {
     initscr();
     refresh();
-
     noecho();
-
     curs_set(0);
 
     border('*', '*', '*', '*', '*', '*', '*', '*');
@@ -18,10 +18,15 @@ int main()
 
     WINDOW *explain = newwin(15, 70, 30, 50);
     box(explain, 0, 0);
-    mvwprintw(explain, 1, 3, "Game Rule\nEat 'A' makes your snake length + 1\n Eat 'P' makes your snake length - 1\n if current length less than 3, Game Over\n if clear all mission, Game Clear");
+    std::string gameMessage = "Game Rule\n"
+                              "Eat 'A' makes your snake length + 1\n"
+                              "Eat 'P' makes your snake length - 1\n"
+                              "if current length less than 3, Game Over\n"
+                              "if clear all mission, Game Clear";
+    mvwprintw(explain, 1, 3, gameMessage.c_str());
     wrefresh(explain);
 
-    SnakeGame game = SnakeGame(250);
+    SnakeGame game = SnakeGame(TICK);
 
     while (!game.isOver())
     {
