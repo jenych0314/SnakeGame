@@ -31,7 +31,7 @@ class Snake
 private:
     std::queue<SnakePiece> prev_pieces;
     Direction cur_direction;
-    bool wrongDirection = false; // 추가
+    bool wrongDirection = false;
     bool size3 = false;
     int maxSize, curSize;
 
@@ -77,12 +77,12 @@ public:
         return cur_direction;
     }
 
-    bool getWrongDirection() // 추가
+    bool getWrongDirection()
     {
         return this->wrongDirection;
     }
 
-    bool getSize3() // 추가
+    bool getSize3()
     {
         return this->size3;
     }
@@ -92,7 +92,7 @@ public:
         return this->curSize;
     }
 
-    void setDirection(Direction d) // 수정
+    void setDirection(Direction d)
     {
         if (cur_direction == d)
         {

@@ -92,7 +92,7 @@ private:
         snake.removePiece();
     }
 
-    void hanleNextPiece(SnakePiece next) // 수정
+    void hanleNextPiece(SnakePiece next)
     {
         // const char appleIcon = apple->getIcon(); // segment error occured
         if ((apple != NULL) || (poison != NULL))
@@ -109,14 +109,12 @@ private:
                 removeTail();
                 removeTail();
                 break;
-            // case 'G': // Gate 진입 진출 함수 실행
-            //     break;
             case ' ':
             {
                 removeTail();
                 break;
             }
-            default: // 'W'
+            default:
                 gameOver = true;
                 break;
             }
@@ -130,7 +128,7 @@ private:
         snake.addPiece(next);
     }
 
-    void gameOverHandle() // 추가
+    void gameOverHandle()
     {
         if (snake.getWrongDirection())
         {

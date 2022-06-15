@@ -2,8 +2,6 @@
 #include "Board.hpp"
 #include "SnakeGame.hpp"
 #include <iostream>
-#include <chrono>
-#include <vector>
 
 #define extern TICK;
 

@@ -7,7 +7,6 @@ class Scoreboard
 
     void construct()
     {
-        // 6/11
         score_win = newwin(20, 40, 5, 100);
         box(score_win, 0, 0);
         wrefresh(score_win);
@@ -19,13 +18,13 @@ public:
         construct();
     }
 
-    void initialize(s_score initial_score) // 수정
+    void initialize(s_score initial_score)
     {
         updateScore(initial_score);
         refresh();
     }
 
-    void updateScore(s_score gameScore) // 수정
+    void updateScore(s_score gameScore)
     {
         mvwprintw(score_win, 1, 1, "MISSON");
         mvwprintw(score_win, 2, 1, "Grow your length : %d / 10 ", gameScore.max_len);
@@ -38,8 +37,6 @@ public:
         mvwprintw(score_win, 9, 1, "Eat Apple Count : %d ", gameScore.apple_score);
         mvwprintw(score_win, 10, 1, "Eat Poison Count : %d ", gameScore.poison_score);
         mvwprintw(score_win, 11, 1, "Game Time : %d", gameScore.game_time);
-
-        // mvwprintw(score_win, 5, 1, "Gate Count : %d ", score);
     }
 
     void refresh()

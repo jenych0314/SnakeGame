@@ -16,8 +16,6 @@ private:
     {
         getmaxyx(stdscr, yMax, xMax);
 
-        // 6/11
-        // board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
         wborder(board_win, '0', '0', '0', '0', '/', '\\', '\\', '/');
         wrefresh(board_win);
@@ -30,7 +28,6 @@ protected:
     int xMax, yMax;
 
 public:
-    // 맵 생성자
     Board()
     {
     }
@@ -40,14 +37,12 @@ public:
         construct(tick);
     }
 
-    // 실행
     void initalize()
     {
         clear();
         refresh();
     }
 
-    // Drawable에서 그리기
     void add(Drawable drawable)
     {
         addAt(drawable.getY(), drawable.getX(), drawable.getIcon());
