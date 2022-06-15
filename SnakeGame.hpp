@@ -73,8 +73,6 @@ private:
 
         a_time = 0;
         scoreboard.updateScore(gameScore);
-
-        std::cout << "eatApple" << std::endl;
     }
 
     void eatPoison()
@@ -256,8 +254,6 @@ public:
 
             delete apple;
             apple = NULL;
-
-            std::cout << "responeApple" << std::endl;
         }
         if (p_time == ITEMTICK)
         {
