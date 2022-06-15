@@ -59,17 +59,17 @@ g++ -I "SnakeFilePath" main.cpp -o output -lncurses
 1. Wall, ImmuneWall 생성
 	* Wall이 게임판 중간에 생성됬는데 Snake 바로 앞에 생성되면 암살 가능.
 2. Gate 생성 -> Wall 객체의 위치 중에서 두 곳을 골라 Wall 객체를 삭제시킨 이후, 그 자리에 Gate 객체 생성
-3. Item의 타이머 생성
+3. ~~Item의 타이머 생성~~
 4. Snake의 Gate 진입, 진출 방향 설정
 5. Item의 최대 동시 생성 갯수 설정: 3
-6. 항목별 점수 생성
-7. 항목별 점수 계산
-8. ScoreBoard 항목별 목표치, 달성치
-9. Game Clear 조건 매끄럽게 처리
+6. ~~항목별 점수 생성~~
+7. ~~항목별 점수 계산~~
+8. ~~ScoreBoard 항목별 목표치, 달성치~~
+9. ~~Game Clear 조건 매끄럽게 처리~~
 
 ## Additional
 1. Esc키를 누르면 User에게 확인 후 종료
 2. p키를 눌러 게임 일시중지 시 일시중지임을 인지시켜줄 수 있는 장치 ex) ScoreBoard에서 "Pause" 메시지 출력
 3. Game Level Up System -> Difficulty Growth
 -> Game Speed 증가, Mission의 항목별 목표치 증가, 추가 벽의 생성 속도/시간 감소, Item의 유지 시간 감소 등
-4. Pause
+4. ~~Pause~~
