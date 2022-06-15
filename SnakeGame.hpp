@@ -27,7 +27,7 @@ private:
     int tmp_poison_x, tmp_poison_y;
     // 6/15
     int s_time;
-    int a_time;  // 아이템 리스폰
+    int a_time; // 아이템 리스폰
     int p_time;
 
     s_score gameScore;
@@ -35,22 +35,26 @@ private:
     void createApple()
     {
         int y, x;
+
         board.getEmptyCoordinates(y, x);
         apple = new Apple(y, x);
+        board.add(*apple);
+
         tmp_apple_x = x;
         tmp_apple_y = y;
-        board.add(*apple);
         a_time = 0; // 10초
     }
 
     void createPoison()
     {
         int y, x;
+
         board.getEmptyCoordinates(y, x);
         poison = new Poison(y, x);
+        board.add(*poison);
+
         tmp_poison_x = x;
         tmp_poison_y = y;
-        board.add(*poison);
         p_time = 0; // 10초
     }
 
@@ -58,11 +62,12 @@ private:
     {
         delete apple;
         apple = NULL;
+
         gameScore.apple_score += 1;
         gameScore.cur_len += 1;
         if (gameScore.max_len < gameScore.cur_len)
             gameScore.max_len = gameScore.cur_len;
-        //
+
         a_time = 0;
         scoreboard.updateScore(gameScore);
     }
@@ -71,9 +76,10 @@ private:
     {
         delete poison;
         poison = NULL;
+
         gameScore.poison_score += 1;
         gameScore.cur_len -= 1;
-        //
+
         p_time = 0;
         scoreboard.updateScore(gameScore);
     }
@@ -83,7 +89,6 @@ private:
         int emptyRow = snake.tail().getY();
         int emptyCol = snake.tail().getX();
         board.add(Empty(emptyRow, emptyCol));
-        
         snake.removePiece();
     }
 
@@ -143,7 +148,6 @@ public:
         board = Board(speed);
         scoreboard = Scoreboard();
         initalize();
-
         srand(time(NULL));
     }
 
@@ -163,10 +167,7 @@ public:
         gameScore.cur_len = gameScore.max_len = 3;
         scoreboard.initialize(gameScore);
 
-        s_time = 0;
-        a_time = 0;
-        p_time = 0;
-
+        s_time = a_time = p_time = 0;
         game_over = false;
         srand(time(NULL));
 
@@ -221,6 +222,7 @@ public:
         s_time += 250;
         a_time += 250;
         p_time += 250;
+
         if (s_time % 1000 == 0)
         {
             gameScore.game_time += 1;
@@ -254,7 +256,7 @@ public:
             poison = NULL;
         }
         // tmp
-        if (s_time % 10500 == 0)
+        if (s_time % 10250 == 0)
         {
             removeTail();
         }
