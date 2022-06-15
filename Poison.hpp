@@ -10,4 +10,9 @@ public:
         x = _x;
         icon = 'P';
     }
+
+    char getIcon()
+    {
+        return this->icon;
+    }
 };

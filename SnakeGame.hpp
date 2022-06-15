@@ -25,7 +25,7 @@ private:
     Snake snake;
     Scoreboard scoreboard;
 
-    bool game_over;
+    bool gameOver, gameClear;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
     // 6/15
@@ -97,6 +97,7 @@ private:
 
     void hanleNextPiece(SnakePiece next) // 수정
     {
+        // const char appleIcon = apple->getIcon();
         if ((apple != NULL) || (poison != NULL))
         {
             // game over handler
@@ -118,7 +119,7 @@ private:
                 break;
             }
             default: // 'W'
-                game_over = true;
+                gameOver = true;
                 break;
             }
         }
@@ -130,15 +131,15 @@ private:
     {
         if (snake.getWrongDirection())
         {
-            game_over = true;
+            gameOver = true;
         }
         if (snake.getSize3())
         {
-            game_over = true;
+            gameOver = true;
         }
         if (gameScore.max_len >= 10 && gameScore.apple_score >= 10 && gameScore.poison_score >= 2)
         {
-            game_over = true;
+            gameOver = gameClear = true;
         }
     }
 
@@ -171,7 +172,8 @@ public:
         s_time = 0;
         a_time = 0;
         p_time = 0;
-        game_over = false;
+        gameOver = false;
+        gameClear = false;
         srand(time(NULL));
 
         // snake make
@@ -275,6 +277,6 @@ public:
 
     bool isOver()
     {
-        return game_over;
+        return gameOver;
     }
 };
