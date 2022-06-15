@@ -25,15 +25,12 @@ private:
     Snake snake;
     Scoreboard scoreboard;
 
+    s_score gameScore;
+
     bool gameOver, gameClear;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
-    // 6/15
-    int snakeTime;
-    int appleTime; // 아이템 리스폰
-    int poisonTime;
-
-    s_score gameScore;
+    int snakeTime, appleTime, poisonTime; // handle Item respon time
 
     void createApple()
     {
