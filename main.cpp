@@ -17,17 +17,13 @@ int main()
     border('*', '*', '*', '*', '*', '*', '*', '*');
     refresh();
 
-    WINDOW *explain = newwin(15, 70, 30, 50);
+    WINDOW *explain = newwin(10, 50, 30, 60);
     box(explain, 0, 0);
-    std::vector<std::string> gameMessage = {"Game Rule\n",
-                                            "Eat 'A' makes your snake length + 1\n",
-                                            "Eat 'P' makes your snake length - 1\n",
-                                            "if current length less than 3, Game Over\n",
-                                            "if clear all mission, Game Clear"};
-    for (int i = 0; i < gameMessage.size(); i++)
-    {
-        mvwprintw(explain, i + 1, 3, gameMessage[i].c_str());
-    }
+    mvwprintw(explain, 1, 3, "Game Rule");
+    mvwprintw(explain, 2, 3, "Eat 'A' makes your snake length + 1");
+    mvwprintw(explain, 3, 3, "Eat 'P' makes your snake length - 1");
+    mvwprintw(explain, 4, 3, "if current length less than 3, Game Over");
+    mvwprintw(explain, 5, 3, "if clear all mission, Game Clear");
     wrefresh(explain);
 
     SnakeGame game = SnakeGame(TICK);
