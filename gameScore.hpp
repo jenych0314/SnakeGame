@@ -7,6 +7,7 @@ typedef struct Score_menu
         int cur_len;
         int apple_score;
         int poison_score;
+        int game_time;
     } s_score;
 
 #endif

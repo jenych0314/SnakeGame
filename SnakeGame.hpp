@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 #include "Board.hpp"
 #include "Empty.hpp"
 #include "Apple.hpp"
@@ -18,13 +19,16 @@ private:
     Board board;
     Apple *apple;
     Poison *poison;
-    double appleTime, poisonTime, gateTime;
     Snake snake;
     Scoreboard scoreboard;
+
     bool game_over;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
-    int tmp_row, tmp_col;
+    // 6/15
+    int s_time;
+    int a_time;  // 아이템 리스폰
+    int p_time;
 
     s_score gameScore;
 
@@ -36,7 +40,7 @@ private:
         tmp_apple_x = x;
         tmp_apple_y = y;
         board.add(*apple);
-        appleTime = clock();
+        a_time = 0; // 10초
     }
 
     void createPoison()
@@ -47,7 +51,7 @@ private:
         tmp_poison_x = x;
         tmp_poison_y = y;
         board.add(*poison);
-        poisonTime = clock();
+        p_time = 0; // 10초
     }
 
     void eatApple()
@@ -58,6 +62,8 @@ private:
         gameScore.cur_len += 1;
         if (gameScore.max_len < gameScore.cur_len)
             gameScore.max_len = gameScore.cur_len;
+        //
+        a_time = 0;
         scoreboard.updateScore(gameScore);
     }
 
@@ -67,6 +73,8 @@ private:
         poison = NULL;
         gameScore.poison_score += 1;
         gameScore.cur_len -= 1;
+        //
+        p_time = 0;
         scoreboard.updateScore(gameScore);
     }
 
@@ -130,8 +138,7 @@ private:
     }
 
 public:
-    // 6/11 생성자 수정
-    SnakeGame(int speed = 300)
+    SnakeGame(int speed)
     {
         board = Board(speed);
         scoreboard = Scoreboard();
@@ -155,6 +162,11 @@ public:
         gameScore.apple_score = gameScore.poison_score = 0;
         gameScore.cur_len = gameScore.max_len = 3;
         scoreboard.initialize(gameScore);
+
+        s_time = 0;
+        a_time = 0;
+        p_time = 0;
+
         game_over = false;
         srand(time(NULL));
 
@@ -166,13 +178,13 @@ public:
 
         if (apple == NULL)
             createApple();
-        // if (poison == NULL) // poison은 snake's max length가 5 이후부터 생성
-        //     createPoison();
     }
 
     void processInput()
     {
         chtype input = board.getInput();
+
+        int old_timeout = board.getTimeout();
         // process input
         switch (input)
         {
@@ -196,6 +208,7 @@ public:
             board.setTimeout(-1);
             while (board.getInput() != 'p')
                 ;
+            board.setTimeout(old_timeout);
             break;
         default:
             break;
@@ -204,6 +217,16 @@ public:
 
     void updateState() // 수정
     {
+        // 6/15
+        s_time += 250;
+        a_time += 250;
+        p_time += 250;
+        if (s_time % 1000 == 0)
+        {
+            gameScore.game_time += 1;
+            scoreboard.updateScore(gameScore);
+        }
+
         gameOverHandle();
         hanleNextPiece(snake.nextHead());
 
@@ -216,25 +239,25 @@ public:
             createPoison();
         }
 
-        if ((clock() - appleTime)  > 5000)
+        if (a_time == 10000)
         {
             board.addAt(tmp_apple_y, tmp_apple_x, ' ');
+            a_time = 0;
             delete apple;
             apple = NULL;
-            board.add(Empty(tmp_row, tmp_col));
         }
-        if ((clock() - poisonTime) > 5000)
+        if (p_time == 10000)
         {
             board.addAt(tmp_poison_y, tmp_poison_x, ' ');
+            p_time = 0;
             delete poison;
             poison = NULL;
-            board.add(Empty(tmp_row, tmp_col));
         }
-
-        // if ((clock() - gate->getTime()) / 1000 > 5)
-        // {
-        //     gate = NULL;
-        // }
+        // tmp
+        if (s_time % 10500 == 0)
+        {
+            removeTail();
+        }
     }
 
     void redraw()

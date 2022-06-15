@@ -1,5 +1,7 @@
 #pragma once
 #include "Drawable.hpp"
+#include <stdlib.h>
+#include "Time.hpp"
 
 #define HEIGHT 25
 #define WIDTH 60
@@ -10,6 +12,9 @@ class Board
 private:
     WINDOW *board_win;
 
+    //6/15
+    int timeout;
+
     void construct(int speed)
     {
         // 6/11 
@@ -17,6 +22,7 @@ private:
         wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
         wrefresh(board_win);
 
+        timeout = speed;
         setTimeout(speed);
         keypad(board_win, true);
     }
@@ -51,9 +57,25 @@ public:
         mvwaddch(board_win, y, x, ch);
     }
 
+    // 6/15
     chtype getInput()
     {
-        return wgetch(board_win);
+        time_t time_last_input = Time::milliseceonds();
+
+        chtype input = wgetch(board_win);
+        chtype new_input = ERR;
+
+        setTimeout(0);
+        while (time_last_input + timeout >= Time::milliseceonds())
+        {
+            new_input = wgetch(board_win);
+        }
+        setTimeout(timeout);
+
+        if (new_input != ERR)
+            input = new_input;
+
+        return input;
     }
 
     void getEmptyCoordinates(int &y, int &x)
@@ -75,6 +97,11 @@ public:
     void setTimeout(int timeout)
     {
         wtimeout(board_win, timeout);
+    }
+
+    int getTimeout()
+    {
+        return timeout;
     }
 
     void removeWindow()
