@@ -121,6 +121,11 @@ private:
                 break;
             }
         }
+        else
+        {
+            if (appleTime == TICK)
+                removeTail();
+        }
         board.add(next);
         snake.addPiece(next);
     }
@@ -252,11 +257,6 @@ public:
             delete poison;
             poison = NULL;
         }
-        // 수정 필요
-        if ((snakeTime % (ITEMTICK + TICK) == 0) && (gameScore.cur_len <= snake.getCurSize()))
-        {
-            removeTail();
-        }
     }
 
     void redraw()
@@ -268,5 +268,10 @@ public:
     bool isOver()
     {
         return gameOver;
+    }
+
+    bool isClear()
+    {
+        return gameClear;
     }
 };

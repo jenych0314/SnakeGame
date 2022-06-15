@@ -31,13 +31,14 @@ int main()
         game.processInput();
         game.redraw();
     }
-    
 
     getch();
     endwin();
 
-    std::cout << "GameOver" << std::endl;
-    
+    if (game.isClear() && game.isOver())
+        std::cout << "GameClear" << std::endl;
+    else
+        std::cout << "GameOver" << std::endl;
 
     return 0;
 }

@@ -8,24 +8,26 @@
 
 class Board
 {
-
 private:
     WINDOW *board_win;
-
-    // 6/15
     int timeout;
 
     void construct(int tick)
     {
-        // 6/11
-        board_win = newwin(HEIGHT, WIDTH, 5, 30);
-        wborder(board_win, 'O', 'O', 'O', 'O', '/', '\\', '\\', '/');
-        wrefresh(board_win);
+        getmaxyx(stdscr, yMax, xMax);
 
+        // 6/11
+        // board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
+        board_win = newwin(HEIGHT, WIDTH, 5, 30);
+        wborder(board_win, '0', '0', '0', '0', '/', '\\', '\\', '/');
+        wrefresh(board_win);
         timeout = tick;
         setTimeout(tick);
         keypad(board_win, true);
     }
+
+protected:
+    int xMax, yMax;
 
 public:
     // 맵 생성자
@@ -56,7 +58,6 @@ public:
         mvwaddch(board_win, y, x, ch);
     }
 
-    // 6/15
     chtype getInput()
     {
         time_t time_last_input = Time::milliseceonds();
@@ -83,6 +84,22 @@ public:
             ;
     }
 
+    void getWallCoordinates(int &y1, int &x1, int &y2, int &x2)
+    {
+        while (1)
+        {
+
+            while ((mvwinch(board_win, y1 = rand() % HEIGHT, x1 = rand() % WIDTH)) == ' ')
+                ;
+            while ((mvwinch(board_win, y2 = rand() % HEIGHT, x2 = rand() % WIDTH)) == ' ')
+                ;
+            if (y1 != y2 || x1 != x2)
+            {
+                break;
+            }
+        }
+    }
+
     chtype getCharAt(int y, int x)
     {
         return mvwinch(board_win, y, x);
@@ -97,12 +114,10 @@ public:
     {
         wtimeout(board_win, timeout);
     }
-
     int getTimeout()
     {
         return timeout;
     }
-
     void removeWindow()
     {
         wclear(board_win);
