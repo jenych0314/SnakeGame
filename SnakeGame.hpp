@@ -196,16 +196,6 @@ private:
                         }
                     }
                 }
-                // 중간에 낑긴 Wall객체를 ImmuneWall 객체로
-                // if (중간에 낑겨있다.)
-                // {
-                // delete walls[i][j];
-                // walls[i][j] = NULL;
-                // isWalls[i][j] = false;
-
-                // immuneWalls[i][j] = new ImmuneWall(i, j);
-                // board.add(ImmuneWall(i, j));
-                // }
             }
         }
     }
@@ -374,17 +364,17 @@ public:
         apple = NULL;
         poison = NULL;
         gate1 = gate2 = NULL;
-        walls = new Wall **[HEIGHT];
+        walls = new Wall **[HEIGHT]; // wall init
         for (int i = 0; i < HEIGHT; i++)
         {
             walls[i] = new Wall *[WIDTH];
         }
-        immuneWalls = new ImmuneWall **[HEIGHT];
+        immuneWalls = new ImmuneWall **[HEIGHT]; // immune wall init
         for (int i = 0; i < HEIGHT; i++)
         {
             immuneWalls[i] = new ImmuneWall *[WIDTH];
         }
-        isWalls = new bool *[HEIGHT];
+        isWalls = new bool *[HEIGHT]; // isWall init
         for (int i = 0; i < HEIGHT; i++)
         {
             isWalls[i] = new bool[WIDTH];
