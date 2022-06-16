@@ -56,9 +56,9 @@ g++ -I "SnakeFilePath" main.cpp -o output -lncurses
 - 미션: 좌측의 각 점수 항목별(최대길이, Growth Item 획득 수, Poison Item 획득 수, Gate 사용 횟수, 게임 시간)로 목표치 도달 시 게임 종료
 
 ## CheckList
-1. Wall, ImmuneWall 생성
+1. ~~Wall, ImmuneWall 생성~~
 	* Wall이 게임판 중간에 생성됬는데 Snake 바로 앞에 생성되면 암살 가능.
-2. ~~Gate 생성~~ -> Wall 객체의 위치 중에서 두 곳을 골라 Wall 객체를 삭제시킨 이후, 그 자리에 Gate 객체 생성
+2. ~~Gate 생성~~ -> ~~Wall 객체의 위치 중에서 두 곳을 골라 Wall 객체를 삭제시킨 이후, 그 자리에 Gate 객체 생성~~
 3. ~~Item의 타이머 생성~~
 4. Snake의 Gate 진입, 진출 방향 설정
 5. Item의 최대 동시 생성 갯수 설정: 3

@@ -107,72 +107,104 @@ private:
 
     void createImmuneWall()
     {
-        bool isUp, isDown, isLeft, isRight;
-        isUp = isDown = isLeft = isRight = false;
+        int x, y, cnt;
         for (int i = 0; i < HEIGHT; i++)
         {
             for (int j = 0; j < WIDTH; j++)
             {
-                if (i == 0)
+                x = y = cnt = 0;
+                if (isWalls[i][j])
                 {
-                    if (isWalls[i + 1][j])
+                    if (i == 0)
                     {
-                        isDown = true;
+                        if (isWalls[i + 1][j])
+                        {
+                            y++;
+                            cnt++;
+                        }
                     }
-                }
-                else if (i == HEIGHT - 1)
-                {
-                    if (isWalls[i - 1][j])
+                    else if (i == HEIGHT - 1)
                     {
-                        isUp = true;
+                        if (isWalls[i - 1][j])
+                        {
+                            y--;
+                            cnt++;
+                        }
                     }
-                }
-                else
-                {
-                    if (isWalls[i + 1][j])
+                    else
                     {
-                        isDown = true;
+                        if (isWalls[i + 1][j])
+                        {
+                            y++;
+                            cnt--;
+                        }
+                        if (isWalls[i - 1][j])
+                        {
+                            y--;
+                            cnt++;
+                        }
                     }
-                    if (isWalls[i - 1][j])
+                    if (j == 0)
                     {
-                        isUp = true;
+                        if (isWalls[i][j + 1])
+                        {
+                            x++;
+                            cnt++;
+                        }
                     }
-                }
-                if (j == 0)
-                {
-                    if (isWalls[i][j + 1])
+                    else if (i == HEIGHT - 1)
                     {
-                        isRight = true;
+                        if (isWalls[i][j - 1])
+                        {
+                            x--;
+                            cnt++;
+                        }
                     }
-                }
-                else if (i == HEIGHT - 1)
-                {
-                    if (isWalls[i][j - 1])
+                    else
                     {
-                        isLeft = true;
+                        if (isWalls[i][j + 1])
+                        {
+                            x++;
+                            cnt++;
+                        }
+                        if (isWalls[i][j - 1])
+                        {
+                            x--;
+                            cnt++;
+                        }
                     }
-                }
-                else
-                {
-                    if (isWalls[i][j + 1])
-                    {
-                        isRight = true;
-                    }
-                    if (isWalls[i][j - 1])
-                    {
-                        isLeft = true;
-                    }
-                }
 
+                    if (cnt >= 3)
+                    {
+                        delete walls[i][j];
+                        walls[i][j] = NULL;
+                        isWalls[i][j] = false;
+
+                        immuneWalls[i][j] = new ImmuneWall(i, j);
+                        board.add(ImmuneWall(i, j));
+                    }
+                    else if (cnt == 2)
+                    {
+                        if (x != 0 || y != 0)
+                        {
+                            delete walls[i][j];
+                            walls[i][j] = NULL;
+                            isWalls[i][j] = false;
+
+                            immuneWalls[i][j] = new ImmuneWall(i, j);
+                            board.add(ImmuneWall(i, j));
+                        }
+                    }
+                }
                 // 중간에 낑긴 Wall객체를 ImmuneWall 객체로
                 // if (중간에 낑겨있다.)
                 // {
-                //     delete walls[i][j];
-                //     walls[i][j] = NULL;
-                //     isWalls[i][j] = false;
+                // delete walls[i][j];
+                // walls[i][j] = NULL;
+                // isWalls[i][j] = false;
 
-                //     immuneWalls[i][j] = new ImmuneWall(i, j);
-                //     board.add(ImmuneWall(i, j));
+                // immuneWalls[i][j] = new ImmuneWall(i, j);
+                // board.add(ImmuneWall(i, j));
                 // }
             }
         }

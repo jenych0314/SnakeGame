@@ -1,7 +1,7 @@
 #pragma once
 #include "Drawable.hpp"
 
-#define WALLICON 'Q'
+#define IMMUNEWALLICON 'Q'
 
 class ImmuneWall : public Drawable
 {
@@ -10,6 +10,6 @@ public:
     {
         y = _y;
         x = _x;
-        icon = WALLICON;
+        icon = IMMUNEWALLICON;
     }
 };
