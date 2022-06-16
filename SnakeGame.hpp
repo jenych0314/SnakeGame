@@ -1,15 +1,14 @@
 #pragma once
 
-#define TICK 250
-#define ITEMTICK 10000
-
 #include <ncurses.h>
+// #include <ncursesw/curses.h>
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
 #include "Drawable.hpp"
 #include "Apple.hpp"
 #include "Poison.hpp"
+#include "Gate.hpp"
 #include "Empty.hpp"
 #include "Snake.hpp"
 #include "Board.hpp"
@@ -17,11 +16,21 @@
 #include "gameScore.hpp"
 #include "MessageBoard.hpp"
 
+const int tick = 250;
+const int itemTick = 10000;
+
+extern const char APPLEICON;
+extern const char POISONICON;
+extern const char GATEICON;
+extern const char EMPTYICON;
+extern const char SNAKEICON;
+
 class SnakeGame
 {
 private:
     Apple *apple;
     Poison *poison;
+    Gate *gate1, *gate2;
     Snake snake;
     Board board;
     Scoreboard scoreboard;
@@ -32,7 +41,8 @@ private:
     bool gamePause, gameOver, gameClear;
     int tmp_apple_x, tmp_apple_y;
     int tmp_poison_x, tmp_poison_y;
-    int snakeTime, appleTime, poisonTime; // handle Item respon time
+    int tmp_gate1_x, tmp_gate1_y, tmp_gate2_x, tmp_gate2_y;
+    int snakeTime, appleTime, poisonTime, gateTime; // handle Item respon time
 
     void createApple()
     {
@@ -58,6 +68,23 @@ private:
         tmp_poison_x = x;
         tmp_poison_y = y;
         poisonTime = 0;
+    }
+
+    void createGate()
+    {
+        int y1, x1, y2, x2;
+
+        board.getWallCoordinates(y1, x1, y2, x2);
+        gate1 = new Gate(y1, x1);
+        gate2 = new Gate(y2, x2);
+        board.add(*gate1);
+        board.add(*gate2);
+
+        tmp_gate1_x = x1;
+        tmp_gate1_y = y1;
+        tmp_gate2_x = x2;
+        tmp_gate2_y = y2;
+        gateTime = 0;
     }
 
     void eatApple()
@@ -86,6 +113,16 @@ private:
         scoreboard.updateScore(gameScore);
     }
 
+    void passGate()
+    {
+        // 꼬리까지 전부 나오면
+        // delete gate1, gate2;
+        // gate1 = gate2 = NULL;
+        // gameScore.gate_score += 1;
+        // gateTime = 0;
+        // scoreboard.updateScore(gameScore);
+    }
+
     void removeTail()
     {
         int emptyRow = snake.tail().getY();
@@ -96,7 +133,6 @@ private:
 
     void hanleNextPiece(SnakePiece next) // 수정
     {
-        // const char appleIcon = apple->getIcon(); // segment error occured
         if ((apple != NULL) || (poison != NULL))
         {
             char boardCharAt = board.getCharAt(next.getY(), next.getX());
@@ -111,8 +147,9 @@ private:
                 removeTail();
                 removeTail();
                 break;
-            // case 'G': // Gate 진입 진출 함수 실행
-            //     break;
+            case 'O': // Gate 진입 진출 함수 실행
+                passGate();
+                break;
             case ' ':
             {
                 removeTail();
@@ -125,7 +162,7 @@ private:
         }
         else
         {
-            if (appleTime == TICK)
+            if (appleTime == ::tick)
                 removeTail();
         }
         board.add(next);
@@ -142,7 +179,7 @@ private:
         {
             gameOver = true;
         }
-        if (gameScore.max_len >= 10 && gameScore.apple_score >= 10 && gameScore.poison_score >= 2)
+        if (gameScore.max_len >= gameScore.mission_len && gameScore.apple_score >= gameScore.mission_apple && gameScore.poison_score >= gameScore.mission_poison && gameScore.gate_score >= gameScore.mission_gate && gameScore.game_time >= gameScore.mission_time)
         {
             gameOver = gameClear = true;
         }
@@ -166,11 +203,12 @@ public:
     {
         apple = NULL;
         poison = NULL;
+        gate1 = gate2 = NULL;
         board.initalize();
         scoreboard.initialize(gameScore);
         messageBoard.initialize();
 
-        snakeTime = appleTime = poisonTime = 0;
+        snakeTime = appleTime = poisonTime = gateTime = 0;
         gamePause = gameOver = gameClear = false;
         srand(time(NULL));
 
@@ -226,9 +264,9 @@ public:
     void updateState() // 수정
     {
         // 6/15
-        snakeTime += TICK;
-        appleTime += TICK;
-        poisonTime += TICK;
+        snakeTime += ::tick;
+        appleTime += ::tick;
+        poisonTime += ::tick;
 
         if (snakeTime % 1000 == 0)
         {
@@ -247,22 +285,39 @@ public:
         {
             createPoison();
         }
-
-        if (appleTime == ITEMTICK)
+        if ((gameScore.max_len > 5) && (gate1 == NULL))
         {
-            board.addAt(tmp_apple_y, tmp_apple_x, ' ');
+            createGate();
+        }
+
+        if (appleTime == ::itemTick)
+        {
+            // board.addAt(tmp_apple_y, tmp_apple_x, ' ');
+            board.add(Empty(tmp_apple_y, tmp_apple_x));
             appleTime = 0;
 
             delete apple;
             apple = NULL;
         }
-        if (poisonTime == ITEMTICK)
+        if (poisonTime == ::itemTick)
         {
-            board.addAt(tmp_poison_y, tmp_poison_x, ' ');
+            // board.addAt(tmp_poison_y, tmp_poison_x, ' ');
+            board.add(Empty(tmp_poison_y, tmp_poison_x));
             poisonTime = 0;
 
             delete poison;
             poison = NULL;
+        }
+        if (gateTime == ::itemTick)
+        {
+            // board.addAt(tmp_gate1_y, tmp_gate1_x, ' ');
+            // board.addAt(tmp_gate2_y, tmp_gate2_x, ' ');
+            board.add(Empty(tmp_gate1_y, tmp_gate1_x));
+            board.add(Empty(tmp_gate2_y, tmp_gate2_x));
+            gateTime = 0;
+
+            delete gate1, gate2;
+            gate1 = gate2 = NULL;
         }
     }
 

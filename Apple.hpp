@@ -1,6 +1,8 @@
 #pragma once
 #include "Drawable.hpp"
 
+extern const char APPLEICON = 'A';
+
 class Apple : public Drawable
 {
 public:
@@ -8,11 +10,6 @@ public:
     {
         y = _y;
         x = _x;
-        icon = 'A';
-    }
-
-    char getIcon()
-    {
-        return this->icon;
+        icon = ::APPLEICON;
     }
 };

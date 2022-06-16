@@ -1,6 +1,8 @@
 #pragma once // 추가
 #include "Drawable.hpp"
 
+const char POISONICON = 'P';
+
 class Poison : public Drawable
 {
 public:
@@ -8,11 +10,6 @@ public:
     {
         y = _y;
         x = _x;
-        icon = 'P';
-    }
-
-    char getIcon()
-    {
-        return this->icon;
+        icon = ::POISONICON;
     }
 };

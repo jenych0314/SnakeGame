@@ -1,6 +1,8 @@
 #pragma once
 #include "Drawable.hpp"
 
+const char EMPTYICON = ' ';
+
 class Empty : public Drawable
 {
 public:
@@ -8,6 +10,6 @@ public:
     {
         y = _y;
         x = _x;
-        icon = ' ';
+        icon = ::EMPTYICON;
     }
 };

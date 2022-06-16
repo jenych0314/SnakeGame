@@ -1,6 +1,8 @@
 #pragma once
 #include <queue>
 
+const char SNAKEICON = '@';
+
 enum Direction
 {
     up = -1,
@@ -15,14 +17,14 @@ public:
     SnakePiece()
     {
         this->x = this->y = 0;
-        this->icon = '@';
+        this->icon = SNAKEICON;
     }
 
     SnakePiece(int _y, int _x)
     {
         x = _x;
         y = _y;
-        icon = '@';
+        icon = SNAKEICON;
     }
 };
 

@@ -15,11 +15,10 @@ private:
     void construct(int tick)
     {
         getmaxyx(stdscr, yMax, xMax);
-
-        // 6/11
+        std::cout << xMax << ", " << yMax << std::endl;
         // board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
-        wborder(board_win, '0', '0', '0', '0', '/', '\\', '\\', '/');
+        wborder(board_win, '|', '|', '-', '-', '+', '+', '+', '+');
         wrefresh(board_win);
         timeout = tick;
         setTimeout(tick);
@@ -86,9 +85,8 @@ public:
 
     void getWallCoordinates(int &y1, int &x1, int &y2, int &x2)
     {
-        while (1)
+        while (true)
         {
-
             while ((mvwinch(board_win, y1 = rand() % HEIGHT, x1 = rand() % WIDTH)) == ' ')
                 ;
             while ((mvwinch(board_win, y2 = rand() % HEIGHT, x2 = rand() % WIDTH)) == ' ')

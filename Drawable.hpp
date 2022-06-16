@@ -1,7 +1,18 @@
 #pragma once
 
+// const char APPLEICON = 'A';
+// const char POISONICON = 'P';
+// const char EMPTYICON = ' ';
+// const char SNAKEICON = '@';
+// const char GATEICON = 'O';
+// const char WALLICON = 'W';
+
 class Drawable
 {
+protected:
+    int y, x;
+    chtype icon;
+
 public:
     Drawable()
     {
@@ -30,8 +41,4 @@ public:
     {
         return icon;
     }
-
-protected:
-    int y, x;
-    chtype icon;
 };
