@@ -5,13 +5,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include <typeinfo>
+// #include <typeinfo>
 #include "Drawable.hpp"
 #include "Empty.hpp"
 #include "Apple.hpp"
 #include "Poison.hpp"
 #include "Gate.hpp"
 #include "Wall.hpp"
+#include "ImmuneWall.hpp"
 #include "Snake.hpp"
 #include "Board.hpp"
 #include "Scoreboard.hpp"
@@ -28,6 +29,7 @@ private:
     Poison *poison;
     Gate *gate1, *gate2;
     Wall ***walls;
+    ImmuneWall ***immuneWalls;
     bool **isWalls;
     Snake snake;
     Board board;
@@ -99,6 +101,79 @@ private:
                     walls[i][j] = new Wall(i, j);
                     board.add(Wall(i, j));
                 }
+            }
+        }
+    }
+
+    void createImmuneWall()
+    {
+        bool isUp, isDown, isLeft, isRight;
+        isUp = isDown = isLeft = isRight = false;
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (i == 0)
+                {
+                    if (isWalls[i + 1][j])
+                    {
+                        isDown = true;
+                    }
+                }
+                else if (i == HEIGHT - 1)
+                {
+                    if (isWalls[i - 1][j])
+                    {
+                        isUp = true;
+                    }
+                }
+                else
+                {
+                    if (isWalls[i + 1][j])
+                    {
+                        isDown = true;
+                    }
+                    if (isWalls[i - 1][j])
+                    {
+                        isUp = true;
+                    }
+                }
+                if (j == 0)
+                {
+                    if (isWalls[i][j + 1])
+                    {
+                        isRight = true;
+                    }
+                }
+                else if (i == HEIGHT - 1)
+                {
+                    if (isWalls[i][j - 1])
+                    {
+                        isLeft = true;
+                    }
+                }
+                else
+                {
+                    if (isWalls[i][j + 1])
+                    {
+                        isRight = true;
+                    }
+                    if (isWalls[i][j - 1])
+                    {
+                        isLeft = true;
+                    }
+                }
+
+                // 중간에 낑긴 Wall객체를 ImmuneWall 객체로
+                // if (중간에 낑겨있다.)
+                // {
+                //     delete walls[i][j];
+                //     walls[i][j] = NULL;
+                //     isWalls[i][j] = false;
+
+                //     immuneWalls[i][j] = new ImmuneWall(i, j);
+                //     board.add(ImmuneWall(i, j));
+                // }
             }
         }
     }
@@ -272,6 +347,11 @@ public:
         {
             walls[i] = new Wall *[WIDTH];
         }
+        immuneWalls = new ImmuneWall **[HEIGHT];
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            immuneWalls[i] = new ImmuneWall *[WIDTH];
+        }
         isWalls = new bool *[HEIGHT];
         for (int i = 0; i < HEIGHT; i++)
         {
@@ -295,6 +375,7 @@ public:
         if (apple == NULL)
             createApple();
         createWall();
+        createImmuneWall();
     }
 
     void processInput()
