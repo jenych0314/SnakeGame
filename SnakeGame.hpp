@@ -5,25 +5,21 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
+#include <typeinfo>
 #include "Drawable.hpp"
+#include "Empty.hpp"
 #include "Apple.hpp"
 #include "Poison.hpp"
 #include "Gate.hpp"
-#include "Empty.hpp"
+#include "Wall.hpp"
 #include "Snake.hpp"
 #include "Board.hpp"
 #include "Scoreboard.hpp"
 #include "gameScore.hpp"
 #include "MessageBoard.hpp"
 
-const int tick = 250;
-const int itemTick = 10000;
-
-extern const char APPLEICON;
-extern const char POISONICON;
-extern const char GATEICON;
-extern const char EMPTYICON;
-extern const char SNAKEICON;
+#define TICK 250
+#define ITEMTICK 10000
 
 class SnakeGame
 {
@@ -31,6 +27,8 @@ private:
     Apple *apple;
     Poison *poison;
     Gate *gate1, *gate2;
+    Wall ***walls;
+    bool **isWalls;
     Snake snake;
     Board board;
     Scoreboard scoreboard;
@@ -54,6 +52,7 @@ private:
 
         tmp_apple_x = x;
         tmp_apple_y = y;
+
         appleTime = 0;
     }
 
@@ -67,14 +66,72 @@ private:
 
         tmp_poison_x = x;
         tmp_poison_y = y;
+
         poisonTime = 0;
+    }
+
+    void createWall()
+    {
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            if (i % (HEIGHT - 1))
+            {
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    if (j % (WIDTH - 1))
+                    {
+                        isWalls[i][j] = false;
+                        walls[i][j] = NULL;
+                    }
+                    else
+                    {
+                        isWalls[i][j] = true;
+                        walls[i][j] = new Wall(i, j);
+                        board.add(Wall(i, j));
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    isWalls[i][j] = true;
+                    walls[i][j] = new Wall(i, j);
+                    board.add(Wall(i, j));
+                }
+            }
+        }
     }
 
     void createGate()
     {
-        int y1, x1, y2, x2;
+        int y1 = 0, x1 = 0, y2 = 0, x2 = 0;
+        while (y1 == y2 && x1 == x2)
+        {
+            while (true)
+            {
+                y1 = rand() % HEIGHT;
+                x1 = rand() % WIDTH;
+                if (isWalls[y1][x1])
+                {
+                    break;
+                }
+            }
+            while (true)
+            {
+                y2 = rand() % HEIGHT;
+                x2 = rand() % WIDTH;
+                if (isWalls[y2][x2])
+                {
+                    break;
+                }
+            }
+        }
 
-        board.getWallCoordinates(y1, x1, y2, x2);
+        delete walls[y1][x1], walls[y2][x2];
+        walls[y1][x1] = walls[y2][x2] = NULL;
+        isWalls[y1][x1] = isWalls[y2][x2] = false;
+
         gate1 = new Gate(y1, x1);
         gate2 = new Gate(y2, x2);
         board.add(*gate1);
@@ -84,6 +141,7 @@ private:
         tmp_gate1_y = y1;
         tmp_gate2_x = x2;
         tmp_gate2_y = y2;
+
         gateTime = 0;
     }
 
@@ -115,12 +173,17 @@ private:
 
     void passGate()
     {
-        // 꼬리까지 전부 나오면
-        // delete gate1, gate2;
-        // gate1 = gate2 = NULL;
-        // gameScore.gate_score += 1;
-        // gateTime = 0;
-        // scoreboard.updateScore(gameScore);
+        // 어떤 게이트와 접촉했는가?
+
+        // if (꼬리까지 전부 나오면)
+        // {
+        //     delete gate1, gate2;
+        //     gate1 = gate2 = NULL;
+
+        //     gateTime = 0;
+        //     gameScore.gate_score += 1;
+        //     scoreboard.updateScore(gameScore);
+        // }
     }
 
     void removeTail()
@@ -133,7 +196,7 @@ private:
 
     void hanleNextPiece(SnakePiece next) // 수정
     {
-        if ((apple != NULL) || (poison != NULL))
+        if ((apple != NULL) || (poison != NULL) || (gate1 != NULL))
         {
             char boardCharAt = board.getCharAt(next.getY(), next.getX());
             // game over handler
@@ -162,7 +225,7 @@ private:
         }
         else
         {
-            if (appleTime == ::tick)
+            if (appleTime == (ITEMTICK + TICK))
                 removeTail();
         }
         board.add(next);
@@ -204,22 +267,34 @@ public:
         apple = NULL;
         poison = NULL;
         gate1 = gate2 = NULL;
+        walls = new Wall **[HEIGHT];
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            walls[i] = new Wall *[WIDTH];
+        }
+        isWalls = new bool *[HEIGHT];
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            isWalls[i] = new bool[WIDTH];
+        }
+
         board.initalize();
         scoreboard.initialize(gameScore);
         messageBoard.initialize();
 
-        snakeTime = appleTime = poisonTime = gateTime = 0;
+        snakeTime = 0;
         gamePause = gameOver = gameClear = false;
         srand(time(NULL));
 
         // snake make
         snake.setDirection(down);
-        hanleNextPiece(SnakePiece(1, 1));
+        hanleNextPiece(SnakePiece(HEIGHT / 2, WIDTH / 2));
         hanleNextPiece(snake.nextHead());
         hanleNextPiece(snake.nextHead());
 
         if (apple == NULL)
             createApple();
+        createWall();
     }
 
     void processInput()
@@ -264,9 +339,10 @@ public:
     void updateState() // 수정
     {
         // 6/15
-        snakeTime += ::tick;
-        appleTime += ::tick;
-        poisonTime += ::tick;
+        snakeTime += TICK;
+        appleTime += TICK;
+        poisonTime += TICK;
+        gateTime += TICK;
 
         if (snakeTime % 1000 == 0)
         {
@@ -290,31 +366,24 @@ public:
             createGate();
         }
 
-        if (appleTime == ::itemTick)
+        if (appleTime == ITEMTICK)
         {
-            // board.addAt(tmp_apple_y, tmp_apple_x, ' ');
             board.add(Empty(tmp_apple_y, tmp_apple_x));
-            appleTime = 0;
 
             delete apple;
             apple = NULL;
         }
-        if (poisonTime == ::itemTick)
+        if (poisonTime == ITEMTICK)
         {
-            // board.addAt(tmp_poison_y, tmp_poison_x, ' ');
             board.add(Empty(tmp_poison_y, tmp_poison_x));
-            poisonTime = 0;
 
             delete poison;
             poison = NULL;
         }
-        if (gateTime == ::itemTick)
+        if (gateTime == ITEMTICK)
         {
-            // board.addAt(tmp_gate1_y, tmp_gate1_x, ' ');
-            // board.addAt(tmp_gate2_y, tmp_gate2_x, ' ');
-            board.add(Empty(tmp_gate1_y, tmp_gate1_x));
-            board.add(Empty(tmp_gate2_y, tmp_gate2_x));
-            gateTime = 0;
+            board.add(Wall(tmp_gate1_y, tmp_gate1_x));
+            board.add(Wall(tmp_gate2_y, tmp_gate2_x));
 
             delete gate1, gate2;
             gate1 = gate2 = NULL;

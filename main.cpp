@@ -7,8 +7,6 @@
 #include "Board.hpp"
 #include "SnakeGame.hpp"
 
-extern const int tick;
-
 int main()
 {
     // setlocale(LC_ALL, "ko_KR.utf-8");
@@ -20,7 +18,7 @@ int main()
     border('*', '*', '*', '*', '*', '*', '*', '*');
     refresh();
 
-    SnakeGame game = SnakeGame(::tick);
+    SnakeGame game = SnakeGame(TICK);
 
     while (!game.isOver())
     {

@@ -1,15 +1,15 @@
 #pragma once
 #include "Drawable.hpp"
 
-const char GATEICON = 'O';
+#define GATEICON 'O';
 
 class Gate : public Drawable
 {
 public:
-    Gate(int _y, int _x)
+    Gate(int _y = 0, int _x = 0)
     {
         y = _y;
         x = _x;
-        icon = ::GATEICON;
+        icon = GATEICON;
     }
 };

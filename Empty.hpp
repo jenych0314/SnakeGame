@@ -1,15 +1,15 @@
 #pragma once
 #include "Drawable.hpp"
 
-const char EMPTYICON = ' ';
+#define EMPTYICON ' '
 
 class Empty : public Drawable
 {
 public:
-    Empty(int _y, int _x)
+    Empty(int _y = 0, int _x = 0)
     {
         y = _y;
         x = _x;
-        icon = ::EMPTYICON;
+        icon = EMPTYICON;
     }
 };

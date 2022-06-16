@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 
-const char SNAKEICON = '@';
+#define SNAKEICON '@'
 
 enum Direction
 {

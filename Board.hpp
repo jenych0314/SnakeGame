@@ -1,6 +1,8 @@
 #pragma once
 #include <stdlib.h>
+#include <typeinfo>
 #include "Drawable.hpp"
+#include "Wall.hpp"
 #include "Time.hpp"
 
 #define HEIGHT 25
@@ -15,10 +17,11 @@ private:
     void construct(int tick)
     {
         getmaxyx(stdscr, yMax, xMax);
-        std::cout << xMax << ", " << yMax << std::endl;
+        // std::cout << xMax << ", " << yMax << std::endl;
         // board_win = newwin(HEIGHT, WIDTH, 5, (xMax / 5) - 10);
         board_win = newwin(HEIGHT, WIDTH, 5, 30);
-        wborder(board_win, '|', '|', '-', '-', '+', '+', '+', '+');
+        // wborder(board_win, '|', '|', '-', '-', '+', '+', '+', '+');
+        box(board_win, 0, 0);
         wrefresh(board_win);
         timeout = tick;
         setTimeout(tick);
